@@ -1,15 +1,13 @@
 import React, { useContext } from 'react';
-import { Alert } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { DrawerActions } from '@react-navigation/native';
 import { IconButton } from 'react-native-paper';
-import HomeScreen from '../screens/HomeScreen';
 import AddRoomScreen from '../screens/AddRoomScreen';
 import RoomScreen from '../screens/RoomScreen';
 import { AuthContext } from './AuthProvider';
-
+import StackNavigator from './StackNavigator';
 const ChatAppStack = createStackNavigator();
 const ModalStack = createStackNavigator();
-
 /**
  * All chat app related screens
  */
@@ -31,8 +29,9 @@ function ChatApp() {
     >
       <ChatAppStack.Screen
         name='Home'
-        component={HomeScreen}
+        component={StackNavigator}
         options={({ navigation }) => ({
+          title: 'Chat App',
           headerRight: () => (
             <IconButton
               icon='message-plus'
@@ -43,10 +42,10 @@ function ChatApp() {
           ),
           headerLeft: () => (
             <IconButton
-              icon='logout-variant'
+              icon='menu'
               size={28}
               color='#ffffff'
-              onPress={() => logout()}
+              onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
             />
           )
         })}
@@ -65,6 +64,7 @@ function ChatApp() {
 export default function HomeStack() {
   return (
     <ModalStack.Navigator mode='modal' headerMode='none'>
+      {/* <ModalStack.Screen name='Home' component={StackNavigator} / */}
       <ModalStack.Screen name='ChatApp' component={ChatApp} />
       <ModalStack.Screen name='AddRoom' component={AddRoomScreen} />
     </ModalStack.Navigator>
