@@ -269,7 +269,7 @@ const HomeStackScreen = () => (
   }}>
     <HomeStack.Screen 
         name="Home" 
-        component={SettingsScreen}
+        component={HomeScreen}
         options={({ navigation }) => ({
             headerLeft: () => (
               <IconButton
