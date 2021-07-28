@@ -1,12 +1,15 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import UploadImage from '../components/UploadImage'
+import { auth, db } from '../firebase';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ navigation }) => {
+  console.log(auth?.currentUser?.displayName)
+
     return (
         <View style={styles.container}>
             <UploadImage/>
-            <Text style={{marginVertical:20,fontSize:16}}>Profile Screen</Text>
+            <Text style={{marginVertical:20,fontSize:16}}>{auth?.currentUser?.displayName}</Text>
         </View>
     )
 }

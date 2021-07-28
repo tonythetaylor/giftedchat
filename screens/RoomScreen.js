@@ -31,7 +31,8 @@ export default function RoomScreen({ route }) {
         createdAt: new Date().getTime(),
         user: {
           _id: currentUser.uid,
-          email: currentUser.email
+          email: currentUser.email,
+          displayName: currentUser.displayName
         }
       });
 
@@ -69,7 +70,7 @@ export default function RoomScreen({ route }) {
           if (!firebaseData.system) {
             data.user = {
               ...firebaseData.user,
-              name: firebaseData.user.email
+              name: firebaseData.user.displayName
             };
           }
 

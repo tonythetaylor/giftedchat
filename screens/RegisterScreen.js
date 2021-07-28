@@ -6,6 +6,7 @@ import FormButton from '../components/FormButton';
 import { AuthContext } from '../navigation/AuthProvider';
 
 export default function RegisterScreen({ navigation }) {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -14,6 +15,13 @@ export default function RegisterScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Title style={styles.titleText}>Register to chat</Title>
+      <FormInput
+        placeholder="Enter your name"
+        labelName='Name'
+        value={name}
+        autoCapitalize='none'
+        onChangeText={userEmail => setName(userEmail)}
+      />
       <FormInput
         labelName='Email'
         value={email}
@@ -30,7 +38,7 @@ export default function RegisterScreen({ navigation }) {
         title='Signup'
         modeValue='contained'
         labelStyle={styles.loginButtonLabel}
-        onPress={() => register(email, password)}
+        onPress={() => register(email, password, name)}
       />
       <IconButton
         icon='keyboard-backspace'
