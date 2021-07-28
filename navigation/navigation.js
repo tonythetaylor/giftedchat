@@ -17,6 +17,7 @@ import { AuthContext } from './AuthProvider';
 import AddRoomScreen from '../screens/AddRoomScreen';
 import RoomScreen from '../screens/RoomScreen';
 import HomeScreen from '../screens/HomeScreen';
+import MapScreen from '../screens/MapScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 // import ChatScreen from '../screens/ChatScreen';
@@ -99,7 +100,7 @@ function ChatApp() {
         name='Thread'
         component={ThreadScreen}
         options={({ navigation }) => ({
-        //   title: 'Threads',
+          title: 'Threads',
           headerRight: () => (
             <IconButton
               icon='message-plus'
@@ -294,6 +295,44 @@ const HomeStackScreen = () => (
   </HomeStack.Navigator>
 );
 
+const MapStack = createStackNavigator();
+const MapStackScreen = () => (
+  <MapStack.Navigator
+  screenOptions={{
+    headerStyle: {
+      backgroundColor: '#000'
+    },
+    headerTintColor: '#ffffff',
+    headerTitleStyle: {
+      fontSize: 22
+    }
+  }}>
+    <MapStack.Screen 
+        name="Map" 
+        component={MapScreen}
+        options={({ navigation }) => ({
+            headerLeft: () => (
+              <IconButton
+                icon='menu'
+                size={28}
+                color='#ffffff'
+                onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+              />
+            ),
+            headerRight: () => (
+                <IconButton
+                  icon='message-plus'
+                  size={28}
+                  color='#ffffff'
+                  onPress={() => navigation.navigate('AddRoom')}
+                />
+              )
+        })}
+   
+        />
+  </MapStack.Navigator>
+);
+
 const AppTabs = createBottomTabNavigator();
 const AppTabsScreen = () => (
   <AppTabs.Navigator 
@@ -310,6 +349,19 @@ const AppTabsScreen = () => (
         tabBarIcon: (props) => (
           <Ionicons
             name="home"
+            size={props.size}
+            color={props.color}
+          />
+        ),
+      }}
+    />
+    <AppTabs.Screen
+      name="Map"
+      component={MapStackScreen}
+      options={{
+        tabBarIcon: (props) => (
+          <Ionicons
+            name="map"
             size={props.size}
             color={props.color}
           />
