@@ -1,19 +1,27 @@
-import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import LoginScreens from './screens/LoginScreen';
-import RegisterScreen from './screens/RegisterScreen';
-import ChatScreen from './screens/ChatScreen';
+// import React from 'react';
+// import { createStackNavigator } from '@react-navigation/stack';
+// import { NavigationContainer } from '@react-navigation/native';
+// import LoginScreens from './screens/LoginScreen';
+// import RegisterScreen from './screens/RegisterScreen';
+// import ChatScreen from './screens/ChatScreen';
 
-const Stack = createStackNavigator()
+// const Stack = createStackNavigator()
+// export default function App() {
+//   return (
+//     <NavigationContainer>
+//       <Stack.Navigator>
+//         <Stack.Screen name="Login" component={LoginScreens} />
+//         <Stack.Screen name="Register" component={RegisterScreen} />
+//         <Stack.Screen name="Chat" component={ChatScreen} />
+//       </Stack.Navigator>
+//     </NavigationContainer>
+//   );
+// }
+
+import React from 'react';
+
+import Providers from './navigation';
+
 export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={LoginScreens} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
-        <Stack.Screen name="Chat" component={ChatScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+  return <Providers />;
 }
