@@ -5,6 +5,9 @@ import AuthStack from './AuthStack';
 import HomeStack from './HomeStack';
 import { AuthContext } from './AuthProvider';
 import Loading from '../components/Loading';
+import ModalStackScreen from './navigation';
+import AppTabsScreen from './navigation';
+import AppDrawerScreen from './navigation';
 
 export default function Routes() {
   const { user, setUser } = useContext(AuthContext);
@@ -29,7 +32,7 @@ export default function Routes() {
 
   return (
     <NavigationContainer>
-      {user ? <HomeStack /> : <AuthStack />}
+      {user ? <AppDrawerScreen /> : <AuthStack />}
     </NavigationContainer>
   );
 }

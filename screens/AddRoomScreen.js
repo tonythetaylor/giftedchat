@@ -30,7 +30,7 @@ export default function AddRoomScreen({ navigation }) {
             createdAt: new Date().getTime(),
             system: true
           });
-          navigation.navigate('Home');
+          navigation.navigate('Thread');
         });
     }
   }
@@ -40,12 +40,12 @@ export default function AddRoomScreen({ navigation }) {
         <IconButton
           icon='close-circle'
           size={36}
-          color='#6646ee'
+          color='#000'
           onPress={() => navigation.goBack()}
         />
       </View>
       <View style={styles.innerContainer}>
-        <Title style={styles.title}>Create a new chat room</Title>
+        <Title style={styles.title}>What's on your mind?</Title>
         <FormInput
           labelName='Room Name'
           value={roomName}
