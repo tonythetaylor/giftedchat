@@ -22,6 +22,9 @@ import ProfileScreen from '../screens/ProfileScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 // import ChatScreen from '../screens/ChatScreen';
 import ThreadScreen from '../screens/ThreadScreen';
+import AddEventScreen from '../screens/AddEventScreen';
+import EventScreen from '../screens/EventScreen';
+import EventInfoScreen from '../screens/EventInfoScreen';
 
 
 const AppDrawerContent = (props) => {
@@ -79,8 +82,108 @@ const AppDrawerContent = (props) => {
         </View>
     )
   }
-const ChatAppStack = createStackNavigator();
 
+  const EventAppStack = createStackNavigator();
+
+  function EventApp() {
+    const { logout } = useContext(AuthContext);
+  
+    return (
+      <EventAppStack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#000'
+          },
+          headerTintColor: '#ffffff',
+          headerTitleStyle: {
+            fontSize: 22
+          }
+        }}
+      >
+        <EventAppStack.Screen
+          name='EventInfoScreen'
+          component={EventScreen}
+          options={({ navigation }) => ({
+            title: 'Events',
+            headerRight: () => (
+              <IconButton
+                icon='message-plus'
+                size={28}
+                color='#ffffff'
+                onPress={() => navigation.navigate('AddEvent')}
+              />
+            ),
+            headerLeft: () => (
+              <IconButton
+                icon='menu'
+                size={28}
+                color='#ffffff'
+                onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+              />
+            )
+          })}
+        />
+        <EventAppStack.Screen
+          name='Event'
+          component={EventInfoScreen}
+          options={({ route }) => ({
+            title: route.params.event.name,
+            headerBackTitleVisible: false,
+          })}
+        />
+      </EventAppStack.Navigator>
+    );
+  }
+
+  const EventModalStack = createStackNavigator();
+  const EventModalStackScreen = () => (
+    <EventModalStack.Navigator 
+      mode='modal' 
+      headerMode='none'
+      screenOptions={{
+          headerStyle: {
+            backgroundColor: '#000'
+          },
+          headerTintColor: '#ffffff',
+          headerTitleStyle: {
+            fontSize: 22
+          }
+        }}>
+      <EventModalStack.Screen 
+          name='EventApp' 
+          component={EventApp}
+          options={({ navigation }) => ({
+              title: 'Event',
+              headerRight: () => (
+                <IconButton
+                  icon='message-plus'
+                  size={28}
+                  color='#ffffff'
+                  onPress={() => navigation.navigate('AddEvent')}
+                />
+              ),
+              headerLeft: () => (
+                <IconButton
+                  icon='menu'
+                  size={28}
+                  color='#ffffff'
+                  onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+                />
+              )
+            })}
+      />
+      <EventModalStack.Screen name='AddEvent' component={AddEventScreen} />
+      <EventModalStack.Screen
+          name='Event'
+          component={EventScreen}
+          options={({ route }) => ({
+            title: route.params.event.name
+          })}
+        />
+    </EventModalStack.Navigator>
+  );
+
+const ChatAppStack = createStackNavigator();
 function ChatApp() {
   const { logout } = useContext(AuthContext);
 
@@ -131,9 +234,9 @@ function ChatApp() {
   );
 }
 
-const ModalStack = createStackNavigator();
-const ModalStackScreen = () => (
-  <ModalStack.Navigator 
+const ChatModalStack = createStackNavigator();
+const ChatModalStackScreen = () => (
+  <ChatModalStack.Navigator 
     mode='modal' 
     headerMode='none'
     screenOptions={{
@@ -145,7 +248,7 @@ const ModalStackScreen = () => (
           fontSize: 22
         }
       }}>
-    <ModalStack.Screen 
+    <ChatModalStack.Screen 
         name='ChatApp' 
         component={ChatApp}
         options={({ navigation }) => ({
@@ -168,15 +271,114 @@ const ModalStackScreen = () => (
             )
           })}
     />
-    <ModalStack.Screen name='AddRoom' component={AddRoomScreen} />
-    <ModalStack.Screen
+    <ChatModalStack.Screen name='AddRoom' component={AddRoomScreen} />
+    <ChatModalStack.Screen
         name='Room'
         component={RoomScreen}
         options={({ route }) => ({
           title: route.params.thread.name
         })}
       />
-  </ModalStack.Navigator>
+  </ChatModalStack.Navigator>
+);
+
+const MapAppStack = createStackNavigator();
+function MapApp() {
+  const { logout } = useContext(AuthContext);
+
+  return (
+    <MapAppStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#000'
+        },
+        headerTintColor: '#ffffff',
+        headerTitleStyle: {
+          fontSize: 22
+        }
+      }}
+    >
+      <MapAppStack.Screen
+        name='Map'
+        component={MapScreen}
+        options={({ navigation }) => ({
+          // title: 'Threads',
+          headerRight: () => (
+            <IconButton
+              icon='message-plus'
+              size={28}
+              color='#ffffff'
+              onPress={() => navigation.navigate('AddEvent')}
+            />
+          ),
+          headerLeft: () => (
+            <IconButton
+              icon='menu'
+              size={28}
+              color='#ffffff'
+              onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+            />
+          )
+        })}
+      />
+      <MapAppStack.Screen
+        name='Event'
+        component={MapScreen}
+        options={({ route }) => ({
+          title: route.params.thread.name,
+          headerBackTitleVisible: false,
+        })}
+      />
+    </MapAppStack.Navigator>
+  );
+}
+
+const MapModalStack = createStackNavigator();
+const MapModalStackScreen = () => (
+  <MapModalStack.Navigator 
+    mode='modal' 
+    headerMode='none'
+    screenOptions={{
+        headerStyle: {
+          backgroundColor: '#000'
+        },
+        headerTintColor: '#ffffff',
+        headerTitleStyle: {
+          fontSize: 22
+        }
+      }}>
+    <MapModalStack.Screen 
+        name='MapApp' 
+        component={MapApp}
+        options={({ navigation }) => ({
+            // title: 'Thread',
+            headerRight: () => (
+              <IconButton
+                icon='map'
+                size={28}
+                color='#ffffff'
+                onPress={() => navigation.navigate('AddEvent')}
+              />
+            ),
+            headerLeft: () => (
+              <IconButton
+                icon='menu'
+                size={28}
+                color='#ffffff'
+                onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+              />
+            )
+          })}
+    />
+    <MapModalStack.Screen name='AddEvent' component={AddEventScreen} />
+    <MapModalStack.Screen
+        name='Map'
+        component={MapScreen}
+        // options={({ route }) => ({
+        //   title: route.params.thread.name
+        // })}
+      />
+  </MapModalStack.Navigator>
 );
 
 const ActionsStack = createStackNavigator();
@@ -321,10 +523,10 @@ const MapStackScreen = () => (
             ),
             headerRight: () => (
                 <IconButton
-                  icon='message-plus'
+                  icon='map'
                   size={28}
                   color='#ffffff'
-                  onPress={() => navigation.navigate('AddRoom')}
+                  onPress={() => navigation.navigate('AddEvent')}
                 />
               )
         })}
@@ -357,7 +559,7 @@ const AppTabsScreen = () => (
     />
     <AppTabs.Screen
       name="Map"
-      component={MapStackScreen}
+      component={MapModalStackScreen}
       options={{
         tabBarIcon: (props) => (
           <Ionicons
@@ -370,7 +572,7 @@ const AppTabsScreen = () => (
     />
     <AppTabs.Screen
       name="Threads"
-      component={ModalStackScreen}
+      component={ChatModalStackScreen}
       options={{
         tabBarIcon: (props) => (
           <Ionicons name="people" size={props.size} color={props.color} />
@@ -381,6 +583,31 @@ const AppTabsScreen = () => (
               size={28}
               color='#ffffff'
               onPress={() => navigation.navigate('AddRoom')}
+            />
+          ),
+          headerLeft: () => (
+            <IconButton
+              icon='menu'
+              size={28}
+              color='#ffffff'
+              onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+            />
+          )
+      }}
+    />
+    <AppTabs.Screen
+      name="Events"
+      component={EventModalStackScreen}
+      options={{
+        tabBarIcon: (props) => (
+          <Ionicons name="people" size={props.size} color={props.color} />
+        ),
+        headerRight: () => (
+            <IconButton
+              icon='message-plus'
+              size={28}
+              color='#ffffff'
+              onPress={() => navigation.navigate('AddEvent')}
             />
           ),
           headerLeft: () => (

@@ -23,6 +23,7 @@ var firebaseConfig = {
 
   const db = app.firestore();
   const auth = firebase.auth();
+  const rootRef = firebase.database();
   // Create a root reference
   const storageRef = firebase.storage().ref();
   // Create a folder reference
@@ -30,4 +31,4 @@ var firebaseConfig = {
 
   const taskEvent = firebase.storage.TaskEvent.STATE_CHANGED
 
-  export{db,auth, storageRef, folderRef, taskEvent }
+  export{db,auth, storageRef, folderRef, taskEvent, rootRef }
