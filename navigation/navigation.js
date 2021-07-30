@@ -491,9 +491,10 @@ const HomeStackScreen = () => (
                 />
               )
         })}
-   
         />
-    {/* <ActionsStack.Screen name="ActionDetails" component={ActionDetails} /> */}
+        {/* Adding this below fixed the home screen routing to the Chat Room Screen */}
+    <HomeStack.Screen name="Room" component={RoomScreen} />
+    <HomeStack.Screen name='AddRoom' component={AddRoomScreen} />
   </HomeStack.Navigator>
 );
 
