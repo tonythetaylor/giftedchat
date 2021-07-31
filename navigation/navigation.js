@@ -34,7 +34,7 @@ const AppDrawerContent = (props) => {
       <View style={stylesSidebar.sideMenuContainer}>
         <View style={stylesSidebar.profileHeader}>
           <View style={stylesSidebar.profileHeaderPicCircle}>
-            <Text style={{fontSize: 25, color: '#3EB489'}}>
+            <Text style={{fontSize: 25, color: '#3eb489'}}>
             {currentUser?.charAt(0).toUpperCase()}
   
             </Text>
@@ -92,7 +92,7 @@ const AppDrawerContent = (props) => {
       <EventAppStack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#3EB489'
+            backgroundColor: '#3eb489'
           },
           headerTintColor: '#ffffff',
           headerTitleStyle: {
@@ -142,7 +142,7 @@ const AppDrawerContent = (props) => {
       headerMode='none'
       screenOptions={{
           headerStyle: {
-            backgroundColor: '#3EB489'
+            backgroundColor: '#3eb489'
           },
           headerTintColor: '#ffffff',
           headerTitleStyle: {
@@ -191,7 +191,7 @@ function ChatApp() {
     <ChatAppStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#3EB489'
+          backgroundColor: '#3eb489'
         },
         headerTintColor: '#ffffff',
         headerTitleStyle: {
@@ -241,7 +241,7 @@ const ChatModalStackScreen = () => (
     headerMode='none'
     screenOptions={{
         headerStyle: {
-          backgroundColor: '#3EB489'
+          backgroundColor: '#3eb489'
         },
         headerTintColor: '#ffffff',
         headerTitleStyle: {
@@ -290,7 +290,7 @@ function MapApp() {
     <MapAppStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#3EB489'
+          backgroundColor: '#3eb489'
         },
         headerTintColor: '#ffffff',
         headerTitleStyle: {
@@ -340,7 +340,7 @@ const MapModalStackScreen = () => (
     headerMode='none'
     screenOptions={{
         headerStyle: {
-          backgroundColor: '#3EB489'
+          backgroundColor: '#3eb489'
         },
         headerTintColor: '#ffffff',
         headerTitleStyle: {
@@ -386,7 +386,7 @@ const ProfileStackScreen = () => (
   <ActionsStack.Navigator
   screenOptions={{
     headerStyle: {
-      backgroundColor: '#3EB489'
+      backgroundColor: '#3eb489'
     },
     headerTintColor: '#ffffff',
     headerTitleStyle: {
@@ -432,7 +432,7 @@ const SettingsStackScreen = () => (
   <SettingsStack.Navigator
   screenOptions={{
     headerStyle: {
-      backgroundColor: '#3EB489'
+      backgroundColor: '#3eb489'
     },
     headerTintColor: '#ffffff',
     headerTitleStyle: {
@@ -463,7 +463,7 @@ const HomeStackScreen = () => (
   <HomeStack.Navigator
   screenOptions={{
     headerStyle: {
-      backgroundColor: '#3EB489'
+      backgroundColor: '#3eb489'
     },
     headerTintColor: '#ffffff',
     headerTitleStyle: {
@@ -503,7 +503,7 @@ const MapStackScreen = () => (
   <MapStack.Navigator
   screenOptions={{
     headerStyle: {
-      backgroundColor: '#3EB489'
+      backgroundColor: '#3eb489'
     },
     headerTintColor: '#ffffff',
     headerTitleStyle: {
@@ -544,10 +544,10 @@ const AppTabsScreen = () => (
     inactiveTintColor: '#fff',
     activeTintColor: '#29785B',
     style: {
-      backgroundColor: '#3EB489',
+      backgroundColor: '#3eb489',
     },
     style: {
-      backgroundColor: '#3EB489',
+      backgroundColor: '#3eb489',
     },
   }}>
   <AppTabs.Screen
@@ -652,7 +652,7 @@ const AppDrawerScreen = () => (
     drawerPosition="right"
     screenOptions={{
         headerStyle: {
-          backgroundColor: '#3EB489'
+          backgroundColor: '#3eb489'
         },
         headerTintColor: '#ffffff',
         headerTitleStyle: {
@@ -701,13 +701,13 @@ const stylesSidebar = StyleSheet.create({
     sideMenuContainer: {
       width: '100%',
       height: '100%',
-      backgroundColor: '#3EB489',
+      backgroundColor: '#3eb489',
       paddingTop: 40,
       color: 'white',
     },
     profileHeader: {
       flexDirection: 'row',
-      backgroundColor: '#3EB489',
+      backgroundColor: '#3eb489',
       padding: 15,
       textAlign: 'center',
     },
