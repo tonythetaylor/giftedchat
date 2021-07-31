@@ -58,11 +58,11 @@ const HomeScreen = ({ navigation }) => {
   }
 
   return (
+    <View  style={styles.gridView}>
     <FlatGrid
       itemDimension={130}
       data={threads}
-      style={styles.gridView}
-      // staticDimension={300}
+      // staticDimension={300} 
       // fixed
       spacing={10}
       renderItem={({ item }) => (
@@ -71,11 +71,12 @@ const HomeScreen = ({ navigation }) => {
       >
         <View style={[styles.itemContainer, { backgroundColor: bgColors(item) }]}>
           <Text style={styles.itemName}>{item.latestMessage.text}</Text>
-          {/* <Text style={styles.itemCode}>{item.code}</Text> */}
+          <Text style={styles.itemCode}>{bgColors(item)}</Text>
         </View>
         </TouchableOpacity>
       )}
     />
+    </View>
   )
 }
 
