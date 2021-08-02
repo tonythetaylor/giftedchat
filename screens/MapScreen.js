@@ -1,7 +1,9 @@
 import React, {useLayoutEffect, useEffect, useState, useContext } from 'react';
 import { TextInput, TouchableOpacity, ToastAndroid, StatusBar, Keyboard, StyleSheet, View, Text } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import MapView, { Marker, Callout } from 'react-native-maps';
+// import MapView, { Marker, Callout } from 'react-native-maps';
+import MapView from "react-native-map-clustering";
+import { Marker, Callout } from "react-native-maps";
 import { getRegion } from '../helpers/map';
 import * as Location from 'expo-location';
 // import * as Permissions from 'expo-permissions';
@@ -33,7 +35,7 @@ const MapScreen = () => {
           longitude: location.coords.longitude
         }
       })
-      map.animateToRegion(getRegion(location.coords.latitude, location.coords.longitude, 16000))
+      // map.animateToRegion(getRegion(location.coords.latitude, location.coords.longitude, 16000))
     }
   }
 

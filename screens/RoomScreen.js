@@ -105,7 +105,7 @@ export default function RoomScreen({ route }) {
   function renderLoading() {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size='large' color='#6646ee' />
+        <ActivityIndicator size='large' color='#29785B' />
       </View>
     );
   }
@@ -114,7 +114,7 @@ export default function RoomScreen({ route }) {
     return (
       <Send {...props}>
         <View style={styles.sendingContainer}>
-          <IconButton icon='send-circle' size={32} color='#6646ee' />
+          <IconButton icon='send-circle' size={32} color='#29785B' />
         </View>
       </Send>
     );
@@ -123,7 +123,7 @@ export default function RoomScreen({ route }) {
   function scrollToBottomComponent() {
     return (
       <View style={styles.bottomComponentContainer}>
-        <IconButton icon='chevron-double-down' size={36} color='#6646ee' />
+        <IconButton icon='chevron-double-down' size={36} color='#29785B' />
       </View>
     );
   }
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   systemMessageWrapper: {
-    backgroundColor: '#6646ee',
+    backgroundColor: '#29785B',
     borderRadius: 4,
     padding: 5
   },

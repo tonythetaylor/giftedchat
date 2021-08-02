@@ -52,7 +52,7 @@ export default function AddEventScreen({ navigation }) {
       console.log('Time: ', currentDate.toLocaleTimeString()) 
     }
     setMapDate(currentDate);
-    console.warn("A date has been picked: ", date);
+    // console.warn("A date has been picked: ", date);
     hideDatePicker();
   };
 
@@ -116,7 +116,7 @@ export default function AddEventScreen({ navigation }) {
           //   createdAt: new Date().getTime(),
           //   system: true
           // });
-          navigation.navigate('Event');
+          navigation.navigate('Events');
         });
     }
   }

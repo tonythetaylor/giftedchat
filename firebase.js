@@ -25,10 +25,12 @@ var firebaseConfig = {
   const auth = firebase.auth();
   const rootRef = firebase.database();
   // Create a root reference
-  const storageRef = firebase.storage().ref();
+  const storage = firebase.storage();
+  const storageRef = firebase.storage();
   // Create a folder reference
-  const folderRef = storageRef.child('images/');
+//   const folderRef = storageRef.child('images/');
+  const folderRef = storageRef;
 
   const taskEvent = firebase.storage.TaskEvent.STATE_CHANGED
 
-  export{db,auth, storageRef, folderRef, taskEvent, rootRef }
+  export{db,auth, storageRef, storage, folderRef, taskEvent, rootRef }

@@ -4,12 +4,11 @@ import { FlatGrid } from 'react-native-super-grid';
 import { AuthContext } from '../navigation/AuthProvider';
 import { auth, db } from '../firebase'
 import Loading from '../components/Loading';
+import RoomScreen from './RoomScreen';
 
 const bgColors = (item) => {
   if (item) {
-    console.log(item)
-    return '#'+Math.floor(Math.random()*16777215).toString(16)
-    // '#'+Math.floor(Math.random()*16777215).toString(16);
+    return '#'+Math.floor(Math.random()*16777215).toString(8)
   }
 
 }
@@ -18,7 +17,6 @@ const HomeScreen = ({ navigation }) => {
   const [threads, setThreads] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // const { event } = route.params;
   const { user } = useContext(AuthContext);
   const currentUser = user.toJSON();
 

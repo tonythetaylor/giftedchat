@@ -25,6 +25,10 @@ import ThreadScreen from '../screens/ThreadScreen';
 import AddEventScreen from '../screens/AddEventScreen';
 import EventScreen from '../screens/EventScreen';
 import EventInfoScreen from '../screens/EventInfoScreen';
+import CameraScreen from '../screens/CameraScreen';
+import FeedScreen from '../screens/FeedScreen';
+import CameraAppScreen from '../screens/CameraAppScreen';
+import ImageScreen from '../screens/ImageScreen';
 
 
 const AppDrawerContent = (props) => {
@@ -427,6 +431,99 @@ const ProfileStackScreen = () => (
   </ActionsStack.Navigator>
 );
 
+const CameraStack = createStackNavigator();
+const CameraStackScreen = () => (
+  <CameraStack.Navigator
+  screenOptions={{
+    headerShown: false, // removed header for camera app
+    headerStyle: {
+      backgroundColor: '#3eb489'
+    },
+    headerTintColor: '#ffffff',
+    headerTitleStyle: {
+      fontSize: 22
+    }
+  }}
+  >
+    <CameraStack.Screen 
+        name="Camera" 
+        component={CameraAppScreen}
+        options={({ navigation }) => ({
+            headerLeft: () => (
+              <IconButton
+                icon='menu'
+                size={28}
+                color='#ffffff'
+                onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+              />
+            )
+        })}
+        />
+        <CameraStack.Screen 
+        name="Threads" 
+        component={ThreadScreen}
+        options={({ navigation }) => ({
+            headerLeft: () => (
+              <IconButton
+                icon='menu'
+                size={28}
+                color='#ffffff'
+                onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+              />
+            )
+        })}
+   
+        />
+    <ActionsStack.Screen name="Image" component={ImageScreen} />
+  </CameraStack.Navigator>
+);
+
+const FeedStack = createStackNavigator();
+const FeedStackScreen = () => (
+  <FeedStack.Navigator
+  screenOptions={{
+    headerStyle: {
+      backgroundColor: '#3eb489'
+    },
+    headerTintColor: '#ffffff',
+    headerTitleStyle: {
+      fontSize: 22
+    }
+  }}>
+    <FeedStack.Screen 
+        name="Feed" 
+        component={FeedScreen}
+        options={({ navigation }) => ({
+            headerLeft: () => (
+              <IconButton
+                icon='menu'
+                size={28}
+                color='#ffffff'
+                onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+              />
+            )
+        })}
+   
+        />
+        <FeedStack.Screen 
+        name="Threads" 
+        component={ThreadScreen}
+        options={({ navigation }) => ({
+            headerLeft: () => (
+              <IconButton
+                icon='menu'
+                size={28}
+                color='#ffffff'
+                onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+              />
+            )
+        })}
+   
+        />
+    {/* <ActionsStack.Screen name="ActionDetails" component={ActionDetails} /> */}
+  </FeedStack.Navigator>
+);
+
 const SettingsStack = createStackNavigator();
 const SettingsStackScreen = () => (
   <SettingsStack.Navigator
@@ -471,7 +568,7 @@ const HomeStackScreen = () => (
     }
   }}>
     <HomeStack.Screen 
-        name="Home" 
+        name="Rooms" 
         component={HomeScreen}
         options={({ navigation }) => ({
             headerLeft: () => (
@@ -551,12 +648,25 @@ const AppTabsScreen = () => (
     },
   }}>
   <AppTabs.Screen
-      name="Home"
+    name="Feeds"
+    component={FeedStackScreen}
+    options={{
+      tabBarIcon: (props) => (
+        <Ionicons
+          name="home"
+          size={props.size}
+          color={props.color}
+        />
+      )
+    }}
+  />
+  <AppTabs.Screen
+      name="Rooms"
       component={HomeStackScreen}
       options={{
         tabBarIcon: (props) => (
           <Ionicons
-            name="home"
+            name="albums"
             size={props.size}
             color={props.color}
           />
@@ -576,7 +686,7 @@ const AppTabsScreen = () => (
         ),
       }}
     />
-    <AppTabs.Screen
+    {/* <AppTabs.Screen
       name="Threads"
       component={ChatModalStackScreen}
       options={{
@@ -600,7 +710,7 @@ const AppTabsScreen = () => (
             />
           )
       }}
-    />
+    /> */}
     <AppTabs.Screen
       name="Events"
       component={EventModalStackScreen}
@@ -627,6 +737,28 @@ const AppTabsScreen = () => (
       }}
     />
     <AppTabs.Screen
+      name="Camera"
+      component={CameraStackScreen}
+      options={{
+        tabBarVisible: false ,
+        tabBarIcon: (props) => (
+          <Ionicons
+            name="camera"
+            size={props.size}
+            color={props.color}
+          />
+        ),
+        tabBarOptions: {
+          style: {
+              borderTopWidth: 0,
+              width: '100%',
+              borderRadius: 30,
+              backgroundColor: '#fff',
+          },
+      }
+      }}
+    />
+    {/* <AppTabs.Screen
       name="Profile"
       component={ProfileStackScreen}
       options={{
@@ -638,7 +770,7 @@ const AppTabsScreen = () => (
           />
         )
       }}
-    />
+    /> */}
   </AppTabs.Navigator>
 );
 
@@ -676,6 +808,31 @@ const AppDrawerScreen = () => (
         headerLeft: () => (
           <IconButton
             icon='menu'
+            size={28}
+            color='#ffffff'
+            onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+          />
+        )
+      })}
+      
+    />
+    <AppDrawer.Screen
+      name="Profile"
+      component={ProfileStackScreen}
+    //   options={{ drawerLabel: 'Home' }}
+      options={({ navigation }) => ({
+        title: 'Profile',
+        headerRight: () => (
+          <IconButton
+            icon='message-plus'
+            size={28}
+            color='#ffffff'
+            onPress={() => navigation.navigate('AddRoom')}
+          />
+        ),
+        headerLeft: () => (
+          <IconButton
+            icon='profile'
             size={28}
             color='#ffffff'
             onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
