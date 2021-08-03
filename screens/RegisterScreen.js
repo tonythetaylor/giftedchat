@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   ScrollView,
   StatusBar,
+  Button
 } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
@@ -18,9 +19,11 @@ import Loader from '../components/Loading';
 import { Title, IconButton } from 'react-native-paper';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
+import * as ImagePicker from 'expo-image-picker';
 import { AuthContext } from '../navigation/AuthProvider';
 
 export default function RegisterScreen({ navigation }) {
+  const [image, setImage] = useState(null);
   const [name, setName] = useState('')
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -37,6 +40,21 @@ export default function RegisterScreen({ navigation }) {
   const passwordInputRef = createRef();
 
   const { register } = useContext(AuthContext);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log('image picked' , result);
+    
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
 
   if (isRegistraionSuccess) {
     return (
@@ -96,6 +114,10 @@ export default function RegisterScreen({ navigation }) {
           />
         </View>
         <KeyboardAvoidingView enabled>
+            <Button title="Choose a profile picture" style={styles.profilePicture} onPress={pickImage} />
+            <TouchableOpacity onPress={pickImage} style={styles.profileContainer}>
+            {image && <Image source={{ uri: image }} style={styles.profilePicture} />}
+            </TouchableOpacity>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -155,7 +177,7 @@ export default function RegisterScreen({ navigation }) {
           <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
-            onPress={() => register(email, password, name)}>
+            onPress={() => register(email, password, name, image)}>
             <Text style={styles.buttonTextStyle}>REGISTER</Text>
           </TouchableOpacity>
           <Text
@@ -231,6 +253,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 14,
   },
+  profileContainer: {
+    width: 200,
+    height: 200,
+    borderWidth: 1,
+    borderRadius: 100
+},
+profilePicture: {
+    width: 200, 
+    height: 200,  
+    borderRadius: 100
+}
 });
 
 // import React, { useState, useEffect } from 'react'

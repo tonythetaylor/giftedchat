@@ -15,6 +15,7 @@ export default function RoomScreen({ route }) {
   useStatsBar('light-content');
 
   const [messages, setMessages] = useState([]);
+  const [threadCount, setThreadCount] = useState([])
   const { thread } = route.params;
   const { user } = useContext(AuthContext);
   const currentUser = user.toJSON();

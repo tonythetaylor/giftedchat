@@ -7,7 +7,7 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerI
 import { Ionicons } from '@expo/vector-icons';
 import { IconButton } from 'react-native-paper';
 import { DrawerActions } from '@react-navigation/native';
-
+import { Avatar } from 'react-native-elements';
 
 import { auth, db } from '../firebase';
 
@@ -29,6 +29,7 @@ import CameraScreen from '../screens/CameraScreen';
 import FeedScreen from '../screens/FeedScreen';
 import CameraAppScreen from '../screens/CameraAppScreen';
 import ImageScreen from '../screens/ImageScreen';
+import AddPostScreen from '../screens/AddPostScreen';
 
 
 const AppDrawerContent = (props) => {
@@ -38,10 +39,17 @@ const AppDrawerContent = (props) => {
       <View style={stylesSidebar.sideMenuContainer}>
         <View style={stylesSidebar.profileHeader}>
           <View style={stylesSidebar.profileHeaderPicCircle}>
-            <Text style={{fontSize: 25, color: '#3eb489'}}>
+          <Avatar
+              size="large"
+              rounded
+              source={{
+                uri: auth?.currentUser?.photoURL,
+              }}
+            />
+            {/* <Text style={{fontSize: 25, color: '#3eb489'}}>
             {currentUser?.charAt(0).toUpperCase()}
   
-            </Text>
+            </Text> */}
           </View>
           <Text style={stylesSidebar.profileHeaderText}>
             <Text>{auth?.currentUser?.displayName}</Text>
@@ -460,8 +468,8 @@ const CameraStackScreen = () => (
         })}
         />
         <CameraStack.Screen 
-        name="Threads" 
-        component={ThreadScreen}
+        name="Feed" 
+        component={AppTabsScreen} // Takes you back to the camera
         options={({ navigation }) => ({
             headerLeft: () => (
               <IconButton
@@ -588,10 +596,10 @@ const HomeStackScreen = () => (
                 />
               )
         })}
-        />
+      />
         {/* Adding this below fixed the home screen routing to the Chat Room Screen */}
     <HomeStack.Screen name="Room" component={RoomScreen} />
-    <HomeStack.Screen name='AddRoom' component={AddRoomScreen} />
+    <HomeStack.Screen name='AddRoom' component={AddPostScreen} />
   </HomeStack.Navigator>
 );
 
@@ -747,15 +755,7 @@ const AppTabsScreen = () => (
             size={props.size}
             color={props.color}
           />
-        ),
-        tabBarOptions: {
-          style: {
-              borderTopWidth: 0,
-              width: '100%',
-              borderRadius: 30,
-              backgroundColor: '#fff',
-          },
-      }
+        )
       }}
     />
     {/* <AppTabs.Screen
