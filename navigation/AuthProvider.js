@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [name, setName] = useState(null)
   const [errortext, setErrortext] = useState('');
+  const [postURL, setPostURL] = useState('')
 
   const getPictureBlob = async (uri, user) => {
     // https://github.com/expo/expo/issues/2402#issuecomment-443726662
@@ -65,9 +66,9 @@ export const AuthProvider = ({ children }) => {
     });
     const filename = uri.substring(uri.lastIndexOf('/') + 1);
 
-    const ref = storage.ref(`posts/${id}/post.jpg`);
+    const ref = storage.ref(`posts/${id}/${filename}`);
     const snapshot = await ref.put(blob);
-    const remoteUri = await snapshot.ref.getDownloadURL();
+    const remoteUri = await snapshot.ref.getDownloadURL()
   
     // We're done with the blob, close and release it
     blob.close();
@@ -110,10 +111,10 @@ export const AuthProvider = ({ children }) => {
                 const filename = image.substring(image.lastIndexOf('/') + 1);
                 const uploadUri = Platform.OS === 'ios' ? image.replace('file://', '') : image;
                 const remoteUri = getPictureBlob(image, user);
-                console.warn('setting blob', remoteUri)
+                // console.warn('setting blob', remoteUri)
                 setImageUri(remoteUri)
 
-                console.warn('should be set: ', imageUri)
+                // console.warn('should be set: ', imageUri)
                 user.updateProfile({
                     displayName: name,
                 }).then(() => {
@@ -159,9 +160,12 @@ export const AuthProvider = ({ children }) => {
             // const snapshot = await ref.put(photo);
             // const remoteUri = await snapshot.ref.getDownloadURL()
             const downloadURL = getPostsBlob(photo, id)
+            setPostURL(downloadURL)
+            console.warn(postURL)
+            // getPostsBlob(photo, id)
             const uploadData = {
               id: id,
-              postPhoto: photo,
+              postPhoto: postURL,
               postTitle: title,
               postDescription: description,
               createdAt: new Date().getTime(),

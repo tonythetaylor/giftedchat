@@ -16,7 +16,7 @@ export default function EventInfoScreen({ route }) {
 
   const [messages, setMessages] = useState([]);
   const { event } = route.params;
-  console.warn('Heres the event being passed', event)
+  // console.warn('Heres the event being passed', event)
   const { user } = useContext(AuthContext);
   const currentUser = user.toJSON();
 

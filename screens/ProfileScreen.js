@@ -20,16 +20,14 @@ const ProfileScreen = ({ navigation }) => {
       .catch((e) => console.log('Errors while downloading => ', e));
   }, []);
 
-  console.log('HMPH---->', imageUrl)
+  // console.log('HMPH---->', imageUrl)
     return (
         <View style={styles.container}>
             {/* <UploadImage/> */}
             <Avatar
               size="xlarge"
               rounded
-              source={{
-                uri: imageUrl,
-              }}
+              source={!imageUrl ? require('../assets/profile.png') : {uri: imageUrl}}
             />
             {/* <Image
             source={{uri: imageUrl}}

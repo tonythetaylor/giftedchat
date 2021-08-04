@@ -35,6 +35,7 @@ import AddPostScreen from '../screens/AddPostScreen';
 const AppDrawerContent = (props) => {
     const { logout } = useContext(AuthContext);
     var currentUser = auth?.currentUser?.displayName
+    var imageUrl = auth?.currentUser?.photoURL
     return (
       <View style={stylesSidebar.sideMenuContainer}>
         <View style={stylesSidebar.profileHeader}>
@@ -42,9 +43,7 @@ const AppDrawerContent = (props) => {
           <Avatar
               size="large"
               rounded
-              source={{
-                uri: auth?.currentUser?.photoURL,
-              }}
+              source={!imageUrl ? require('../assets/profile.png') : {uri: imageUrl}}
             />
             {/* <Text style={{fontSize: 25, color: '#3eb489'}}>
             {currentUser?.charAt(0).toUpperCase()}
@@ -52,7 +51,7 @@ const AppDrawerContent = (props) => {
             </Text> */}
           </View>
           <Text style={stylesSidebar.profileHeaderText}>
-            <Text>{auth?.currentUser?.displayName}</Text>
+            <Text>{currentUser}</Text>
           </Text>
         </View>
         <View style={stylesSidebar.profileHeaderLine} />
@@ -509,11 +508,17 @@ const FeedStackScreen = () => (
                 color='#ffffff'
                 onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
               />
+            ),
+            headerRight: () => (
+              <IconButton
+                icon='message-plus'
+                size={28}
+                color='#ffffff'
+                onPress={() => navigation.navigate('AddPostScreen')}
+              />
             )
-        })}
-   
-        />
-        <FeedStack.Screen 
+        })} />
+        {/* <FeedStack.Screen 
         name="Threads" 
         component={ThreadScreen}
         options={({ navigation }) => ({
@@ -527,8 +532,22 @@ const FeedStackScreen = () => (
             )
         })}
    
-        />
-    {/* <ActionsStack.Screen name="ActionDetails" component={ActionDetails} /> */}
+        /> */}
+    <FeedStack.Screen 
+      name="AddPostScreen" 
+      component={AddPostScreen}
+      options={({ navigation }) => ({
+        title: 'Add Post',
+        headerBackTitleVisible: false,
+        headerRight: () => (
+          <IconButton
+            icon='close'
+            size={28}
+            color='#ffffff'
+            onPress={() => navigation.goBack()}
+          />
+        )
+      })} />
   </FeedStack.Navigator>
 );
 
@@ -599,7 +618,7 @@ const HomeStackScreen = () => (
       />
         {/* Adding this below fixed the home screen routing to the Chat Room Screen */}
     <HomeStack.Screen name="Room" component={RoomScreen} />
-    <HomeStack.Screen name='AddRoom' component={AddPostScreen} />
+    <HomeStack.Screen name='AddRoom' component={AddRoomScreen} />
   </HomeStack.Navigator>
 );
 
@@ -674,11 +693,39 @@ const AppTabsScreen = () => (
       options={{
         tabBarIcon: (props) => (
           <Ionicons
-            name="albums"
+            name="search"
             size={props.size}
             color={props.color}
           />
         ),
+      }}
+    />
+    <AppTabs.Screen
+      name="Camera"
+      component={CameraStackScreen}
+      options={{
+        tabBarVisible: false ,
+        tabBarIcon: (props) => (
+          <View
+            style={{
+                position: 'absolute',
+                bottom: -25, // space from bottombar
+                height: 100,
+                width: 100,
+                borderRadius: 68,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#3eb489',
+            }}
+            >
+          <Ionicons
+            name="camera"
+            size={65}
+            color={props.color}
+          />
+            </View>
+
+        )
       }}
     />
     <AppTabs.Screen
@@ -742,20 +789,6 @@ const AppTabsScreen = () => (
               onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
             />
           )
-      }}
-    />
-    <AppTabs.Screen
-      name="Camera"
-      component={CameraStackScreen}
-      options={{
-        tabBarVisible: false ,
-        tabBarIcon: (props) => (
-          <Ionicons
-            name="camera"
-            size={props.size}
-            color={props.color}
-          />
-        )
       }}
     />
     {/* <AppTabs.Screen

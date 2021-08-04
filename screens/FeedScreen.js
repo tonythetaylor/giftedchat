@@ -65,15 +65,22 @@ export default function FeedScreen({navigation})  {
 
     if (postData != null) {
       return (
-        <FlatList
-            style={styles.container}
-            data={postData}
-            extraData={postData}
-            renderItem={(item) => renderItem(item)}
-            keyExtractor={item => item.id.toString()}
-            refreshing={isRefreshing}
-            onRefresh={() => onRefresh()}
-        />
+        postData.length === 0 ? 
+          (
+            <View style={{ flex: 3, alignItems: 'center', justifyContent: 'center' }}>
+              <Text>Your activity will show here</Text>
+            </View>
+          ) : (
+            <FlatList
+              style={styles.container}
+              data={postData}
+              extraData={postData}
+              renderItem={(item) => renderItem(item)}
+              keyExtractor={item => item.id.toString()}
+              refreshing={isRefreshing}
+              onRefresh={() => onRefresh()}
+            />
+          )
       )
     } else
       return (

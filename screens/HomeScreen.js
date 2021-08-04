@@ -10,7 +10,6 @@ const bgColors = (item) => {
   if (item) {
     return '#'+Math.floor(Math.random()*16777215).toString(8)
   }
-
 }
 
 const HomeScreen = ({ navigation }) => {
