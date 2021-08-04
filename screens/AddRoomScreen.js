@@ -30,7 +30,7 @@ export default function AddRoomScreen({ navigation }) {
             createdAt: new Date().getTime(),
             system: true
           });
-          navigation.navigate('Thread');
+          navigation.navigate('Threads'); // TODO: update routes to hit rooms instead of thread
         });
     }
   }

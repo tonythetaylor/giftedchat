@@ -1,6 +1,10 @@
 import React, { createContext, useState } from 'react';
 import { auth } from '../firebase';
+import Loader from '../components/Loading';
+import {
+  View,
 
+} from 'react-native';
 /**
  * This provider is created
  * to access user in whole app
@@ -11,6 +15,7 @@ export const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [name, setName] = useState(null)
+  const [errortext, setErrortext] = useState('');
 
   return (
     <AuthContext.Provider
@@ -19,6 +24,15 @@ export const AuthProvider = ({ children }) => {
         setName,
         setUser,
         login: async (email, password) => {
+          setErrortext('');
+            if (!email) {
+              alert('Please fill Email');
+              return;
+            }
+            if (!password) {
+              alert('Please fill Password');
+              return;
+            }
           try {
             await auth.signInWithEmailAndPassword(email, password);
           } catch (e) {

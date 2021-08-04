@@ -1,234 +1,214 @@
-import React, { useState }  from 'react'
-import { StyleSheet, Dimensions, TouchableOpacity, Alert, Text, View } from 'react-native';
-// import { Text, View } from '../components/Themed';
-import MapView,  { Marker, Callout, CalloutSubview }  from 'react-native-maps';
+import React, {useLayoutEffect, useEffect, useState, useContext } from 'react';
+import { TextInput, TouchableOpacity, ToastAndroid, StatusBar, Keyboard, StyleSheet, View, Text } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+// import MapView, { Marker, Callout } from 'react-native-maps';
+import MapView from "react-native-map-clustering";
+import { Marker, Callout } from "react-native-maps";
+import { getRegion } from '../helpers/map';
+import * as Location from 'expo-location';
+// import * as Permissions from 'expo-permissions';
+import { auth, db, rootRef } from '../firebase';
+import moment from 'moment';
 
-import CustomCallout from './CustomCallout';
+import { AuthContext } from '../navigation/AuthProvider';
 
-const { width, height } = Dimensions.get('window');
-const ASPECT_RATIO = width / height;
-const LATITUDE = 29.9990674;
-const LONGITUDE = -90.0852767;
-const LATITUDE_DELTA = 0.0922;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const SPACE = 0.01;
 
-const MapScreen = ({ provider }) => {
-  const [count, setCount] = useState(0);
-  const [region, setRegion] = useState({
-    latitude: LATITUDE,    // initial location latitude
-    longitude: LONGITUDE,  // initial location longitude
-    latitudeDelta: LATITUDE_DELTA,
-    longitudeDelta: LONGITUDE_DELTA,
-  });
+const MapScreen = () => {
+  const [markers, setMarkers] = useState(null)
+  const [messageText, setMessageText] = useState(null)
+  const [messages, setMessages] = useState([])
+  const [sendButtonActive, setSendButtonActive] = useState(false)
 
-  const [markers, setMarkers] = useState([
-    {
-      coordinate: {
-        latitude: LATITUDE + SPACE,
-        longitude: LONGITUDE + SPACE,
-      },
-    },
-    {
-      coordinate: {
-        latitude: LATITUDE + SPACE,
-        longitude: LONGITUDE - SPACE,
-      },
-    },
-    {
-      coordinate: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-      },
-    },
-    {
-      coordinate: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE - SPACE / 2,
-      },
-    },
-  ]);
+  const { user } = useContext(AuthContext);
+  const currentUser = user.toJSON();
 
-  const [markerRefs, setMarkerRefs] = useState([
-    {
-      ref: null,
-    },
-    {
-      ref: null,
-    },
-    {
-      ref: null,
-    },
-    {
-      ref: null,
-    },
-  ]);
+  const [location, setLocation] = useState(null);
 
-  const show = () => {
-    markerRefs[0].ref.showCallout();
-  };
+  const getLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
 
-  const hide = () => {
-    markerRefs[0].ref.showCallout();
-  };
+    if (status === 'granted') {
+      let location = await Location.getCurrentPositionAsync({});
+      setMarkers({
+        location: {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude
+        }
+      })
+      // map.animateToRegion(getRegion(location.coords.latitude, location.coords.longitude, 16000))
+    }
+  }
 
-  return (
-    // <View  style={styles.container}>
-    //   <Text>The home screen</Text>
-    // </View>
-    <View style={styles.container}>
-       <MapView
-        provider={provider}
-        style={styles.map}
-        initialRegion={region}
-        zoomTapEnabled={false}
-      >
-        <Marker
-          ref={(ref) => {
-            let updateRef = markerRefs;
-            updateRef[0].ref = ref;
-            setMarkerRefs(updateRef);
-          }}
-          coordinate={markers[0].coordinate}
-          title="This is a native view"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation"
-        />
-        <Marker coordinate={markers[1].coordinate}>
-          <Callout style={styles.plainView}>
-            <View>
-              <Text>This is a plain view</Text>
-            </View>
-          </Callout>
-        </Marker>
-        <Marker
-          coordinate={markers[2].coordinate}
-          calloutOffset={{ x: -8, y: 28 }}
-          calloutAnchor={{ x: 0.5, y: 0.4 }}
-          ref={(ref) => {
-            let updateRef = markerRefs;
-            updateRef[1].ref = ref;
-            setMarkerRefs(updateRef);
-          }}
-        >
-          <Callout
-            alphaHitTest
-            tooltip
-            onPress={(e) => {
-              if (
-                e.nativeEvent.action === 'marker-inside-overlay-press' ||
-                e.nativeEvent.action === 'callout-inside-press'
-              ) {
-                return;
-              }
+  const onChangeText = (messageText) => {
+    setMessageText(messageText)
+    setSendButtonActive(messageText.length > 0)
+  }
 
-              Alert.alert('callout pressed');
-            }}
-            style={styles.customView}
-          >
-            <CustomCallout>
-              <Text>{`This is a custom callout bubble view ${count}`}</Text>
-              <CalloutSubview
-                onPress={() => {
-                  setCount(count + 1);
-                }}
-                style={[styles.calloutButton]}
-              >
-                <Text>Click me</Text>
-              </CalloutSubview>
-            </CustomCallout>
-          </Callout>
-        </Marker>
-        <Marker
-          ref={(ref) => {
-            let updateRef = markerRefs;
-            updateRef[3].ref = ref;
-            setMarkerRefs(updateRef);
-          }}
-          coordinate={markers[3].coordinate}
-          title="You can also open this callout"
-          description="by pressing on transparent area of custom callout"
-        />
-      </MapView>
-      <View style={styles.buttonContainer}>
-        <View style={styles.bubble}>
-          <Text>Tap on markers to see different callouts</Text>
+  function onSendPress() {
+    // console.warn('LOCATION', sendButtonActive, markers, messageText)
+    if (sendButtonActive) {
+      db
+      .collection('MARKERS')
+      // .doc(currentUser.uid)
+      // .collection('MESSAGES')
+      .add({
+        createdBy: auth?.currentUser?.displayName,
+        text: messageText,
+        latitude: markers.location.latitude,
+        longitude: markers.location.longitude,
+        timestamp: new Date().getTime(),
+        user: {
+          _id: currentUser.uid,
+          email: currentUser.email,
+          displayName: currentUser.displayName
+        }
+      })
+      // removing this for now since we're not navigating anywhere
+      // .then(docRef => {
+      //   docRef.collection('MESSAGES').add({
+      //     text: `You have joined the event ${markers.messageText}.`,
+      //     createdAt: new Date().getTime(),
+      //     system: true
+      //   });
+      //   // navigation.navigate('Map');
+      // })
+      .then(() => {
+        setMessageText(null)
+      }).catch((error) => {
+        console.log(error);
+      });
+  }
+  }
+
+  useEffect(() => {
+    getLocation()
+    const unsubscribe = db
+    .collection('MARKERS')
+    // .doc(currentUser.uid)
+    // .collection('MESSAGES')
+    .orderBy('timestamp', 'desc')
+    .onSnapshot(querySnapshot => {
+      const messages = querySnapshot.docs.map(documentSnapshot => {
+        return {
+          _id: documentSnapshot.id,
+          // give defaults
+          name: '',
+
+          ...documentSnapshot.data()
+        };
+      });
+      // const messages = querySnapshot.docs.map(doc => {
+      //   const firebaseData = doc.data();
+      //   console.warn('DOC ID', doc)
+      //   const data = {
+      //     _id: doc.id,
+      //     name: '',
+      //     createdAt: new Date().getTime(),
+      //     ...firebaseData
+      //   };
+
+        // if (!firebaseData.system) {
+        //   data.user = {
+        //     ...firebaseData.user,
+        //     createdBy: firebaseData.user.displayName
+        //   };
+        // }
+
+      //   return data;
+      // });
+
+      setMessages(messages);
+
+    });
+    // console.warn('MESSAGES', messages)
+  /**
+   * unsubscribe listener
+   */
+  return () => unsubscribe();
+}, []);
+ 
+    return (
+      <View style={styles.container}>
+        <View style={styles.inputWrapper}>
+          <TextInput
+            style={styles.input}
+            placeholder="Type your message here"
+            onChangeText={messageText => onChangeText(messageText)}
+            value={messageText}
+          />
+          <View style={{ ...styles.sendButton, ...(sendButtonActive ? styles.sendButtonActive : {}) }}>
+            <TouchableOpacity onPress={() => onSendPress()}>
+              <MaterialIcons name="send" size={32} color="#fe4027" />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={() => show()}
-          style={[styles.bubble, styles.button]}
+        <MapView
+          ref={(ref) => map = ref}
+          style={styles.map}
+          initialRegion={getRegion(39.147880, -77.297050, 160000)}
         >
-          <Text>Show</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => hide()}
-          style={[styles.bubble, styles.button]}
-        >
-          <Text>Hide</Text>
-        </TouchableOpacity>
+          {messages.map((message, index) => {
+            let { latitude, longitude, text, timestamp } = message;
+
+            return (
+              <Marker
+                ref={(ref) => marker = ref}
+                key={index}
+                identifier={'marker_' + index}
+                coordinate={{ latitude, longitude }}
+              >
+                <Callout>
+                  <View>
+                    <Text>{text}</Text>
+                    <Text style={{ 'color': '#999' }}>{moment(timestamp).fromNow()}</Text>
+                  </View>
+                </Callout>
+              </Marker>
+            )
+          })}
+        </MapView>
       </View>
-    </View>
+    );
+  }
 
-  )
-}
-
-// const styles = StyleSheet.create({
-//   container: {
-//     padding:50,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
+export default MapScreen
 
 const styles = StyleSheet.create({
-  customView: {
-    width: 140,
-    height: 140,
-  },
-  plainView: {
-    width: 60,
-  },
   container: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
+    flex: 1,
+    backgroundColor: '#fff',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFillObject
   },
-  bubble: {
-    flex: 1,
-    backgroundColor: 'rgba(255,255,255,0.7)',
-    paddingHorizontal: 18,
-    paddingVertical: 12,
-    borderRadius: 20,
+  inputWrapper: {
+    width: '100%',
+    position: 'absolute',
+    padding: 10,
+    top: 10,
+    left: 0,
+    zIndex: 100
   },
-  latlng: {
-    width: 200,
-    alignItems: 'stretch',
+  input: {
+    height: 46,
+    paddingVertical: 10,
+    paddingRight: 50,
+    paddingLeft: 10,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 6,
+    borderColor: '#ccc',
+    backgroundColor: '#fff'
   },
-  button: {
-    width: 80,
-    paddingHorizontal: 12,
-    alignItems: 'center',
-    marginHorizontal: 10,
+  sendButton: {
+    position: 'absolute',
+    top: 17,
+    right: 20,
+    opacity: 0.4
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    marginVertical: 20,
-    backgroundColor: 'transparent',
-  },
-  calloutButton: {
-    width: 'auto',
-    backgroundColor: 'rgba(255,255,255,0.7)',
-    paddingHorizontal: 6,
-    paddingVertical: 6,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginHorizontal: 10,
-    marginVertical: 10,
-  },
+  sendButtonActive: {
+    opacity: 1
+  }
 });
-export default MapScreen
