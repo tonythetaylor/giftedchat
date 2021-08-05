@@ -4,8 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Button } from 'react-native-paper';
 import { AuthContext } from '../navigation/AuthProvider';
 import { auth, db, storage } from '../firebase';
-import ImageFilters, { Presets } from 'react-native-gl-image-filters';
-import filters from '../utils/filters';
+
 const AddPostScreen = ({navigation}) => {
     // useStatsBar('dark-content');
     const [image, setImage] = useState(null);
@@ -111,7 +110,7 @@ const AddPostScreen = ({navigation}) => {
     return (
         <SafeAreaView style={{ flex: 1, marginTop: 60 }}>
             {image ? (
-              <Image  {...Presets.StinsonPreset}
+              <Image
                 source={{ uri: image}}
                 style={{ width: '100%', height: 300 }}
               />
