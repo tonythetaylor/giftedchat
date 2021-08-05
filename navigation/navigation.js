@@ -30,6 +30,7 @@ import FeedScreen from '../screens/FeedScreen';
 import CameraAppScreen from '../screens/CameraAppScreen';
 import ImageScreen from '../screens/ImageScreen';
 import AddPostScreen from '../screens/AddPostScreen';
+import SearchScreen from '../screens/SearchScreen';
 
 
 const AppDrawerContent = (props) => {
@@ -596,7 +597,7 @@ const HomeStackScreen = () => (
   }}>
     <HomeStack.Screen 
         name="Rooms" 
-        component={HomeScreen}
+        component={SearchScreen}
         options={({ navigation }) => ({
             headerLeft: () => (
               <IconButton
