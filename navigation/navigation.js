@@ -32,6 +32,7 @@ import ImageScreen from '../screens/ImageScreen';
 import AddPostScreen from '../screens/AddPostScreen';
 import SearchScreen from '../screens/SearchScreen';
 
+var currentUser = auth?.currentUser?.displayName
 
 const AppDrawerContent = (props) => {
     const { logout } = useContext(AuthContext);
@@ -406,7 +407,7 @@ const ProfileStackScreen = () => (
     }
   }}>
     <ActionsStack.Screen 
-        name="Profile" 
+        name={'Profile'}
         component={ProfileScreen}
         options={({ navigation }) => ({
             headerLeft: () => (
@@ -851,7 +852,7 @@ const AppDrawerScreen = () => (
       
     />
     <AppDrawer.Screen
-      name="Profile"
+      name={"Profile"}
       component={ProfileStackScreen}
     //   options={{ drawerLabel: 'Home' }}
       options={({ navigation }) => ({

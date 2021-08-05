@@ -92,32 +92,24 @@ export default function FeedScreen({navigation})  {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1
-    },
-    card: {
-      backgroundColor: '#fff',
-      marginBottom: 25
-    },
-    cardImage: {
-      width: '100%',
-      height: 300
-    },
-    cardHeader: {
-      padding: 10,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between'
-    },
-    cardTitle: {
-      color: '#000'
-    },
-    cardAvatar: {
-      marginRight: 16
-    },
-    cardContent: {
-      padding: 10,
-      borderWidth: 0.25,
-      borderColor: '#fff'
-    }
+  gridView: {
+    marginTop: 10,
+    flex: 1,
+  },
+  itemContainer: {
+    justifyContent: 'flex-end',
+    borderRadius: 5,
+    padding: 10,
+    height: 150,
+  },
+  itemName: {
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: '600',
+  },
+  itemCode: {
+    fontWeight: '600',
+    fontSize: 12,
+    color: '#fff',
+  }
   })
