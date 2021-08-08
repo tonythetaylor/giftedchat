@@ -104,7 +104,7 @@ export default function RegisterScreen({ navigation }) {
         }}>
         <View style={{alignItems: 'center'}}>
           <Image
-            source={require('../assets/images/apptemplate.png')}
+            source={require('../assets/kikbacks-logo.png')}
             style={{
               width: '100%',
               height: 100,
