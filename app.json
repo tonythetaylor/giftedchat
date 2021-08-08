@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "giftedchat",
-    "slug": "giftedchat",
+    "name": "kikbacks",
+    "slug": "kikbacks",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/kikbacks-logo.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -18,7 +18,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.taylortheory.giftedchat"
+      "bundleIdentifier": "com.taylortheory.kikbacks"
     },
     "android": {
       "adaptiveIcon": {
