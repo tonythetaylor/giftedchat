@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
 
     const ref = storage.ref(`posts/${id}/${filename}`);
     const snapshot = await ref.put(blob);
-    const remoteUri = await snapshot.ref.getDownloadURL()
+    const remoteUri = await snapshot.ref.getDownloadURL();
   
     // We're done with the blob, close and release it
     blob.close();
@@ -161,7 +161,7 @@ export const AuthProvider = ({ children }) => {
             // const remoteUri = await snapshot.ref.getDownloadURL()
             const downloadURL = getPostsBlob(photo, id)
             setPostURL(downloadURL)
-            console.warn(postURL)
+            // console.warn(postURL)
             // getPostsBlob(photo, id)
             const uploadData = {
               id: id,
