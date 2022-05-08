@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }) => {
     blob.close();
   
     setPostURL(remoteUri)
-    return remoteUri
+    return photoURL
   };
 
   return (
@@ -156,15 +156,15 @@ export const AuthProvider = ({ children }) => {
           let blob
           try {
             const id = uuid.v4()
-            // const user = auth?.currentUser
-            // const ref = storage.ref(`posts/${id}`);
-            // const snapshot = await ref.put(photo);
-            // const remoteUri = await snapshot.ref.getDownloadURL()
-            // const downloadURL = getPostsBlob(photo, id)
+            const user = auth?.currentUser
+            const ref = storage.ref(`posts/${id}`);
+            const snapshot = await ref.put(photo);
+            const remoteUri = await snapshot.ref.getDownloadURL()
+            const downloadURL = getPostsBlob(photo, id)
             // setPostURL(downloadURL)
             // console.warn(postURL)
             // getPostsBlob(photo, id)
-            // console.warn('PHOTO: 1', downloadURL)
+            console.warn('PHOTO: 1', downloadURL)
             const uploadData = {
               id: id,
               postPhoto: postURL,
